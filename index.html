@@ -170,22 +170,48 @@
       background: var(--panel-2);
       border: 1px solid var(--border);
     }
-
+    
     .card h3 {
       margin: 0;
       font-size: 16px;
-
+    
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
-
-    .card h3:hover,
-    .card .desc:hover {
+    
+    .desc {
+      color: #c7ccda;
+      font-size: 14px;
+    
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    
+      overflow: hidden;
+    
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    
+      position: relative;
+    }
+    
+    .card h3:hover {
       white-space: normal;
+      overflow: visible;
+    }
+    
+    .card .desc:hover {
       -webkit-line-clamp: unset;
     }
-
+    
+    .card.expanded .desc {
+      -webkit-line-clamp: unset;
+    }
+    
     .badges {
       display: flex;
       gap: 8px;
@@ -217,16 +243,6 @@
       background: rgba(139,157,255,.1);
       color: #aab7ff;
       border-color: #2b305c;
-    }
-
-    .desc {
-      color: #c7ccda;
-      font-size: 14px;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   </style>
 </head>
@@ -309,6 +325,9 @@
         e.preventDefault();
         runQuery();
       }
+    });
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
     });
     sortSelect.addEventListener('change', runQuery);
   
