@@ -361,9 +361,6 @@
         runQuery();
       }
     });
-    card.addEventListener('click', () => {
-      card.classList.toggle('expanded');
-    });
     joinBtn.addEventListener('click', e => {
       e.stopPropagation();
       if (!selectedGame) return;
@@ -463,7 +460,12 @@
           joinTitle.textContent = `Join: ${item.name}`;
           joinPanel.style.display = 'block';
         });
-      
+        
+        card.addEventListener('dblclick', e => {
+          e.stopPropagation();
+          card.classList.toggle('expanded');
+        });
+        
         resultsEl.appendChild(card);
       }
     }
