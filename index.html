@@ -97,11 +97,14 @@
       box-shadow: var(--shadow);
     }
 
-    .input input {
-      flex: 1;
+    .input textarea {
+      resize: vertical;
+      min-height: 40px;
+      max-height: 120px;
+      width: 100%;
+      background: transparent;
       border: none;
       outline: none;
-      background: transparent;
       color: var(--text);
       font-size: 15px;
     }
@@ -221,11 +224,12 @@
       </div>
       <div class="bar">
         <div class="input">
-          <input
+          <textarea
             id="q"
+            rows="1"
             placeholder='e.g. name:"parkour" AND ccu:{ x>=50 }'
             autocomplete="off"
-          >
+          ></textarea>
           <button id="clear" title="Clear">Clear</button>
         </div>
         <div class="controls">
@@ -285,8 +289,12 @@
     });
   
     runBtn.addEventListener('click', runQuery);
-    qInput.addEventListener('keyup', e => { if (e.key === 'Enter') runQuery(); });
-    qInput.addEventListener('input', runQuery);
+    qInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        runQuery();
+      }
+    });
     sortSelect.addEventListener('change', runQuery);
   
     const knownFields = [
@@ -321,14 +329,21 @@
     function updateCount(n = Data.length) {
       countEl.textContent = `${n} Results`;
     }
-  
     function runEngine(queryString, data = Data) {
       const ast = tokenizeAndParse(queryString);
-      return data.filter(item => evalNode(ast, item));
-    }
-  
+      return data
+        .map(item => {
+          item._fuzzyScore = 0;
+          const ok = evalNode(ast, item);
+          return ok ? item : null;
+        })
+        .filter(Boolean)
+        .sort((a,b) => (b._fuzzyScore||0) - (a._fuzzyScore||0));
+    } 
     function runQuery() {
-      const q = qInput.value.trim();
+      const q = qInput.value
+        .replace(/\n+/g, ' ')
+        .trim();
       if (!q) {
         updateCount(Data.length);
         return renderResults(Data);
@@ -456,9 +471,20 @@
             return false;
           }
         }
-        default:
-          // FUZZY substring
-          return valStr.includes(node.rawValue.toLowerCase());
+        default: {
+          const t = node.rawValue.toLowerCase();
+          if (!t) return false;
+          if (!valStr.includes(t)) return false;
+        
+          // scoring
+          const score =
+            (valStr === t ? 10 :
+             valStr.startsWith(t) ? 5 :
+             2);
+        
+          Search._fuzzyScore = (Search._fuzzyScore || 0) + score;
+          return true;
+        }
       }
     }
   
