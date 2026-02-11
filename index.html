@@ -366,7 +366,7 @@
       if (!selectedGame) return;
       const schemId = selectedGame.schematicId;
       const lobby   = lobbyInput.value.trim();
-      let url = `https://bloxd.io/play/classic_playerSchematic%7C${schemId}`;
+      let url = `https://bloxd.io/${lobby?"play":"game"}/classic_playerSchematic%7C${schemId}`;
       if (lobby) url += `/${encodeURIComponent(lobby)}`;
       window.open(url, '_blank');
     });
