@@ -323,7 +323,7 @@
   `;
   document.body.appendChild(main);
 
-  const DATA_URL = 'https://raw.githubusercontent.com/GlitchHunterCoder/Bloxd-SearchEngine/refs/heads/main/Custom-Games.json';
+  const DATA_URL = 'https://raw.githubusercontent.com/GlitchHunterCoder/Bloxd-SearchEngine/refs/heads/main/web-data/Custom-Games.json';
   window.Data = [];
 
   const loaderEl   = document.getElementById('loader');
