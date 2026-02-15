@@ -57,6 +57,6 @@ console.log(JSON.stringify(
 data.map(e=>e.results).flat()
 ))
 ```
-- Copy Formatted Data into `Custom-Games.json`
+- Copy Formatted Data into `web-data/Custom-Games.json`
 ## And you are done !!!
 With that, the Data is formatted and usable, and thus the Search Engine can use it as lookup
