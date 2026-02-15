@@ -19,7 +19,7 @@ let n = 1;
 const payload = /* payload */
 async function getGameData() {
   try {
-    const link = /* link */";
+    const link = /* link */;
     payload.contents.pageNumber = n;
     const response = await fetch(link, {
       method: "POST",
