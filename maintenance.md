@@ -45,7 +45,7 @@ logInChunks(allResults)
 ```
 - Then quickly right click and `Copy Console`
 ### Clean Data
-- take data and clean up JSON, removing any errored logs
+- take data and clean up JSON, removing any errored logs `^.*?\[.*?\] `
 - use Find and Replace on 
   - `VM??:? ` -> "" //nothing
   - `\n` -> "" //regex match on, nothing
