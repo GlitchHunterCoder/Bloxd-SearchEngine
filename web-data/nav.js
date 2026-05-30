@@ -707,7 +707,7 @@
   }
   function tokenize(str) {
     const tokens = [];
-    const re = /\s*(?:(AND|OR|NOT)|(\()|(\))|(\{(?:\\.|[^}])*\})|(:)|(-)|("(?:\\.|[^"])*")|(\/(?:\\.|[^\/])+\/[a-z]*)|([A-Za-z_]\w*)|(.))/g;
+    const re = /\s*(?:(AND|OR|NOT)|(\()|(\))|(\{(?:\\.|[^}])*\})|(:)|(-)|("(?:\\.|[^"])*")|(\/(?:\\.|[^\/])+\/[a-z]*)|(\w+)|(.))/g;
     let m;
     while ((m = re.exec(str)) !== null) {
       if (m[1])      tokens.push({ type: m[1] });             // AND|OR|NOT
